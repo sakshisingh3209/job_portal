@@ -1,4 +1,5 @@
 const { times } = require('lodash');
+
 const mongoose = require('mongoose');
 const jobSchema = new mongoose.Schema({
     company: {
@@ -29,7 +30,7 @@ const jobSchema = new mongoose.Schema({
     createdBy: {
 
         type: mongoose.Types.ObjectId,
-        ref: 'User'
+        ref: "User"
     }
 }, { timestamps: true });
 module.exports = mongoose.model('Job', jobSchema);

@@ -38,27 +38,28 @@ const loginController = async(req, res, next) => {
     }
 
     //find user by email
-    const user = await User.findOne({ email });
-    if (!user) {
-        next('Invalid Username or password');
-    }
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) {;
+        if (!user) {
+            next('Invalid Username or password');
+        }
 
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-        next('Invalid Username or password');
-    }
-    const token = user.createJWT();
-    res.status(200).json({
-        success: true,
-        message: "Login Successfully",
-        user: {
-            name: user.name,
-            email: user.email,
-            location: user.location,
-        },
-        token,
-    })
-};
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            next('Invalid Username or password');
+        }
+        const token = user.createJWT();
+        res.status(200).json({
+            success: true,
+            message: "Login Successfully",
+            user: {
+                name: user.name,
+                email: user.email,
+                location: user.location,
+            },
+            token,
+        });
+    };
 
-
+}
 module.exports = { registerController, loginController };
